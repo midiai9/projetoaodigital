@@ -33,14 +33,14 @@ export function ComposerDivider() {
   return (
     <PartDivider
       part="Parte 03"
-      title="Composer AI OS"
+      title="Maestro CX"
       intro="A pesquisa não termina no relatório. Para os selecionados, ela abre a porta da camada estratégica de decisão da AlwaysOn."
       icon={Cpu}
     />
   )
 }
 
-/* 13 ───────── Composer — a ferramenta ───────── */
+/* 13 ───────── Maestro CX — a ferramenta ───────── */
 export function Composer() {
   const layers = [
     { n: '01', icon: Database, t: 'Data Flow', d: 'Dados unificados, governados e auditáveis em tempo real.' },
@@ -52,7 +52,7 @@ export function Composer() {
     <Section id="composer" tone="light">
       <Reveal>
         <SectionHeader
-          eyebrow="Composer · a ferramenta"
+          eyebrow="Maestro CX · a ferramenta"
           title="Quatro camadas que transformam dado em decisão operada"
         />
       </Reveal>
@@ -76,7 +76,7 @@ export function Composer() {
           <p className="text-sm leading-relaxed text-ink-700">
             <strong className="text-ink-900">Por que conecta ao projeto:</strong> cada
             desafio que o executivo declara nas 7 perguntas é, na prática, um caso de
-            uso para um Composer Team (Sales, Marketing, Customer, Trade, Planning). A
+            uso para um Maestro CX Team (Sales, Marketing, Customer, Trade, Planning). A
             pesquisa vira o mapa de demanda do produto.
           </p>
         </div>
@@ -190,7 +190,7 @@ export function Cronograma() {
     { n: '2', p: 'Jul–Set', t: 'Campanha', d: 'Convite multicanal; captação rumo a 250+.' },
     { n: '3', p: 'Set', t: 'Relatório', d: 'Consolidação do Índice e do Relatório Executivo.' },
     { n: '4', p: '06/10', t: 'Webinar ABEMD', d: 'Lançamento público dos dados nacionais.', hot: true },
-    { n: '5', p: 'Out+', t: 'Sessões & Composer', d: 'Sessões Executivas e POVs com leads A.' },
+    { n: '5', p: 'Out+', t: 'Sessões & Maestro CX', d: 'Sessões Executivas e POVs com leads A.' },
   ]
   return (
     <Section id="cronograma" tone="muted">
@@ -247,7 +247,7 @@ export function Governanca() {
     'Aprovação de naming, branding e mensagens',
     'Conteúdo técnico do índice e do relatório',
     'Relacionamento ABEMD e parceiros',
-    'Operação comercial das Sessões e do Composer',
+    'Operação comercial das Sessões e do Maestro CX',
     'Acesso e regras do SharpSpring',
   ]
   const agencia = [

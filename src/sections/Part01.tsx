@@ -37,7 +37,7 @@ export function Documento() {
     { n: '03', icon: Settings, t: 'O motor', d: 'Da LP às 7 perguntas, ao CRM e ao Relatório Executivo.' },
     { n: '04', icon: Database, t: 'SharpSpring & scoring', d: 'Operação no CRM, qualificação e seleção de leads.' },
     { n: '05', icon: Monitor, t: 'Landing pages', d: 'As duas abordagens e a recomendação de conversão.' },
-    { n: '06', icon: Cpu, t: 'Composer & ativação', d: 'Quem é selecionado e como vira oportunidade.' },
+    { n: '06', icon: Cpu, t: 'Maestro CX & ativação', d: 'Quem é selecionado e como vira oportunidade.' },
   ]
   return (
     <Section id="documento" tone="light">
@@ -72,7 +72,7 @@ export function Visao() {
     { icon: TrendingUp, t: 'Mercado', d: 'Produzir um benchmark nacional inédito por setor e porte.' },
     { icon: Award, t: 'Marketing', d: 'Gerar autoridade e ativos editoriais para 12 meses.' },
     { icon: Share2, t: 'Comercial', d: 'Identificar e qualificar oportunidades reais de negócio.' },
-    { icon: Cpu, t: 'Composer', d: 'Mapear casos de uso concretos para a ferramenta.' },
+    { icon: Cpu, t: 'Maestro CX', d: 'Mapear casos de uso concretos para a ferramenta.' },
     { icon: FileText, t: 'Conteúdo', d: 'Abastecer webinar ABEMD, relatório e campanha.' },
   ]
   return (
@@ -80,7 +80,7 @@ export function Visao() {
       <Reveal>
         <SectionHeader
           eyebrow="Visão estratégica"
-          title="Um índice de autoridade que alimenta o pipeline e o Composer"
+          title="Um índice de autoridade que alimenta o pipeline e o Maestro CX"
         />
       </Reveal>
       <Reveal delay={0.05}>
@@ -113,7 +113,7 @@ export function Visao() {
       <Reveal delay={0.1}>
         <p className="mt-8 border-l-2 border-brand-purple/40 pl-4 text-lg italic text-ink-500">
           O dado coletado não é só conteúdo: vira benchmark, vira pipeline e vira
-          caso de uso real para o Composer.
+          caso de uso real para o Maestro CX.
         </p>
       </Reveal>
     </Section>
@@ -136,7 +136,7 @@ export function Leitura() {
     {
       icon: Settings,
       t: 'O motor não estava definido',
-      d: 'Como as 7 respostas viram CRM, relatório e seleção para o Composer não existia em nenhum documento. Foi desenhado aqui e precisa de validação operacional no SharpSpring.',
+      d: 'Como as 7 respostas viram CRM, relatório e seleção para o Maestro CX não existia em nenhum documento. Foi desenhado aqui e precisa de validação operacional no SharpSpring.',
     },
   ]
   return (

@@ -36,7 +36,7 @@ export function MotorDivider() {
     <PartDivider
       part="Parte 02"
       title="O motor do projeto"
-      intro="Da pergunta à decisão: como cada resposta vira lead qualificado, relatório e, para os selecionados, uma oportunidade Composer."
+      intro="Da pergunta à decisão: como cada resposta vira lead qualificado, relatório e, para os selecionados, uma oportunidade Maestro CX."
       icon={Settings}
     />
   )
@@ -51,14 +51,14 @@ export function Workflow() {
     { icon: Filter, t: 'Qualificação', d: 'Lead scoring por porte, cargo e impacto em A, B ou C.' },
     { icon: Mail, t: 'Raio-X imediato', d: 'Retorno automático e nutrição até o webinar.' },
     { icon: FileText, t: 'Consolidação', d: 'Relatório Executivo Nacional e Webinar ABEMD.' },
-    { icon: Cpu, t: 'Seleção Composer', d: 'Leads A viram Sessão Executiva e POV do Composer.' },
+    { icon: Cpu, t: 'Seleção Maestro CX', d: 'Leads A viram Sessão Executiva e POV do Maestro CX.' },
   ]
   return (
     <Section id="workflow" tone="light">
       <Reveal>
         <SectionHeader
           eyebrow="Workflow ponta a ponta"
-          title="Da captação à seleção para o Composer"
+          title="Da captação à seleção para o Maestro CX"
         />
       </Reveal>
       <div className="relative">
@@ -185,7 +185,7 @@ export function Qualificacao() {
       <Reveal>
         <SectionHeader
           eyebrow="Qualificação & seleção"
-          title="Nem todo respondente é um lead Composer — e tudo bem"
+          title="Nem todo respondente é um lead Maestro CX — e tudo bem"
         />
       </Reveal>
       <Stagger className="grid gap-5 lg:grid-cols-3">
@@ -221,10 +221,10 @@ export function Qualificacao() {
         <div className="mt-6 flex items-start gap-4 rounded-2xl border border-brand-purple/20 bg-white p-6 shadow-card">
           <IconBadge icon={Cpu} />
           <p className="text-sm leading-relaxed text-ink-700">
-            <strong className="text-ink-900">Critério de entrada no Composer:</strong>{' '}
+            <strong className="text-ink-900">Critério de entrada no Maestro CX:</strong>{' '}
             leads A em setores prioritários (varejo, financeiro, telecom, indústria)
             viram Sessão Executiva de Interpretação e, na sequência, um POV
-            “Decision Team First” do Composer (6 a 8 semanas).
+            “Decision Team First” do Maestro CX (6 a 8 semanas).
           </p>
         </div>
       </Reveal>
