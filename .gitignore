@@ -4,6 +4,10 @@ node_modules/
 # Build
 dist/
 dist-ssr/
+*.tsbuildinfo
+
+# Claude Code (config local da máquina)
+.claude/
 
 # Logs
 *.log
