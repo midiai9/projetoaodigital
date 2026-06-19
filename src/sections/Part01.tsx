@@ -44,7 +44,7 @@ export function Documento() {
       <Reveal>
         <SectionHeader
           eyebrow="O que este documento define"
-          title="Da pesquisa de 7 perguntas à nova receita orquestrada"
+          title="Da pesquisa de 6 perguntas à nova receita orquestrada"
           intro="Seis blocos que vão da estratégia ao motor de geração de oportunidades."
         />
       </Reveal>
