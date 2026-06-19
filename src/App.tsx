@@ -21,8 +21,8 @@ import {
   Campanha,
   Cronograma,
   Governanca,
-  Maestro,
-  MaestroDivider,
+  Composer,
+  ComposerDivider,
   Proximos,
   Webinar,
 } from './sections/Part03'
@@ -53,8 +53,8 @@ function App() {
         <Relatorio />
 
         {/* Parte 03 · Ativação */}
-        <MaestroDivider />
-        <Maestro />
+        <ComposerDivider />
+        <Composer />
         <Campanha />
         <Webinar />
         <Cronograma />

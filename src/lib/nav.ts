@@ -22,7 +22,7 @@ export const NAV: NavItem[] = [
   { id: 'landing', label: 'Landing pages', group: 'Parte 02 · O motor' },
   { id: 'relatorio', label: 'Relatório', group: 'Parte 02 · O motor' },
 
-  { id: 'maestro', label: 'Maestro AI OS', group: 'Parte 03 · Ativação' },
+  { id: 'composer', label: 'Composer AI OS', group: 'Parte 03 · Ativação' },
   { id: 'campanha', label: 'Campanha', group: 'Parte 03 · Ativação' },
   { id: 'webinar', label: 'Webinar ABEMD', group: 'Parte 03 · Ativação' },
   { id: 'cronograma', label: 'Cronograma', group: 'Parte 03 · Ativação' },

@@ -29,19 +29,19 @@ import {
   cn,
 } from '../components/ui'
 
-export function MaestroDivider() {
+export function ComposerDivider() {
   return (
     <PartDivider
       part="Parte 03"
-      title="Maestro AI OS"
+      title="Composer AI OS"
       intro="A pesquisa não termina no relatório. Para os selecionados, ela abre a porta da camada estratégica de decisão da AlwaysOn."
       icon={Cpu}
     />
   )
 }
 
-/* 13 ───────── Maestro — a ferramenta ───────── */
-export function Maestro() {
+/* 13 ───────── Composer — a ferramenta ───────── */
+export function Composer() {
   const layers = [
     { n: '01', icon: Database, t: 'Data Flow', d: 'Dados unificados, governados e auditáveis em tempo real.' },
     { n: '02', icon: Activity, t: 'Insights', d: 'Diagnóstico, previsão probabilística e prescrição por impacto.' },
@@ -49,10 +49,10 @@ export function Maestro() {
     { n: '04', icon: Cpu, t: 'Decision Teams', d: 'Times digitais que decidem e executam por domínio.' },
   ]
   return (
-    <Section id="maestro" tone="light">
+    <Section id="composer" tone="light">
       <Reveal>
         <SectionHeader
-          eyebrow="Maestro · a ferramenta"
+          eyebrow="Composer · a ferramenta"
           title="Quatro camadas que transformam dado em decisão operada"
         />
       </Reveal>
@@ -76,7 +76,7 @@ export function Maestro() {
           <p className="text-sm leading-relaxed text-ink-700">
             <strong className="text-ink-900">Por que conecta ao projeto:</strong> cada
             desafio que o executivo declara nas 7 perguntas é, na prática, um caso de
-            uso para um Maestro Team (Sales, Marketing, Customer, Trade, Planning). A
+            uso para um Composer Team (Sales, Marketing, Customer, Trade, Planning). A
             pesquisa vira o mapa de demanda do produto.
           </p>
         </div>
@@ -190,7 +190,7 @@ export function Cronograma() {
     { n: '2', p: 'Jul–Set', t: 'Campanha', d: 'Convite multicanal; captação rumo a 250+.' },
     { n: '3', p: 'Set', t: 'Relatório', d: 'Consolidação do Índice e do Relatório Executivo.' },
     { n: '4', p: '06/10', t: 'Webinar ABEMD', d: 'Lançamento público dos dados nacionais.', hot: true },
-    { n: '5', p: 'Out+', t: 'Sessões & Maestro', d: 'Sessões Executivas e POVs com leads A.' },
+    { n: '5', p: 'Out+', t: 'Sessões & Composer', d: 'Sessões Executivas e POVs com leads A.' },
   ]
   return (
     <Section id="cronograma" tone="muted">
@@ -247,7 +247,7 @@ export function Governanca() {
     'Aprovação de naming, branding e mensagens',
     'Conteúdo técnico do índice e do relatório',
     'Relacionamento ABEMD e parceiros',
-    'Operação comercial das Sessões e do Maestro',
+    'Operação comercial das Sessões e do Composer',
     'Acesso e regras do SharpSpring',
   ]
   const agencia = [
