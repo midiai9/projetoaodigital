@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import {
   Activity,
   Building2,
@@ -36,7 +37,7 @@ export function MotorDivider() {
     <PartDivider
       part="Parte 02"
       title="O motor do projeto"
-      intro="Da pergunta à decisão: como cada resposta vira lead qualificado, relatório e, para os selecionados, uma oportunidade Maestro CX."
+      intro="Da pergunta à decisão: como cada resposta vira lead qualificado, relatório e, para os selecionados, uma oportunidade Composer."
       icon={Settings}
     />
   )
@@ -50,19 +51,26 @@ export function Workflow() {
     { icon: UserPlus, t: 'Captura', d: 'Nome, e-mail, telefone e opt-in entram no SharpSpring.' },
     { icon: Filter, t: 'Qualificação', d: 'Lead scoring por porte, cargo e impacto em A, B ou C.' },
     { icon: Mail, t: 'Raio-X imediato', d: 'Retorno automático e nutrição até o webinar.' },
-    { icon: FileText, t: 'Consolidação', d: 'Relatório Executivo Nacional e Webinar ABEMD.' },
-    { icon: Cpu, t: 'Seleção Maestro CX', d: 'Leads A viram Sessão Executiva e POV do Maestro CX.' },
+    { icon: FileText, t: 'Consolidação', d: 'Relatório Executivo Nacional e Webinar Bento & ABEMD.' },
+    { icon: Cpu, t: 'Seleção Composer', d: 'Leads A viram Sessão Executiva e POV do Composer.' },
   ]
   return (
     <Section id="workflow" tone="light">
       <Reveal>
         <SectionHeader
           eyebrow="Workflow ponta a ponta"
-          title="Da captação à seleção para o Maestro CX"
+          title="Da captação à seleção para o Composer"
         />
       </Reveal>
       <div className="relative">
-        <div className="absolute left-[27px] top-2 bottom-2 hidden w-px bg-gradient-to-b from-brand-blue via-brand-violet to-brand-magenta sm:block" />
+        {/* Linha conectora que "desenha" conforme entra na tela */}
+        <motion.div
+          className="absolute left-[27px] top-2 bottom-2 hidden w-px origin-top bg-gradient-to-b from-brand-blue via-brand-violet to-brand-magenta sm:block"
+          initial={{ scaleY: 0 }}
+          whileInView={{ scaleY: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 1.1, ease: 'easeInOut' }}
+        />
         <Stagger className="space-y-4">
           {steps.map((s, i) => (
             <StaggerItem key={s.t}>
@@ -98,9 +106,12 @@ export function Workflow() {
 /* 8 ───────── Questionário ───────── */
 export function Questionario() {
   const qs = [
-    { t: 'Desafio crítico (90 dias)', d: 'Qual desafio geraria maior impacto financeiro se resolvido? (aberto)' },
-    { t: 'Onde afeta', d: 'Receita · Margem · Produtividade · UX · Crescimento · Risco.' },
-    { t: 'Consequência estratégica', d: 'Crescimento abaixo do potencial, perda de margem, churn, escala…' },
+    {
+      t: 'Desafio crítico (90 dias)',
+      d: 'Se você pudesse resolver apenas um desafio nos próximos 90 dias, qual geraria maior impacto financeiro à sua organização em Marketing, Vendas, CRM e Experiência do Cliente? (aberto)',
+    },
+    { t: 'Onde afeta', d: 'Receita · Margem · Produtividade · UX · Crescimento · Compliance · Risco.' },
+    { t: 'Consequência estratégica', d: 'Crescimento abaixo do potencial, perda de margem, perda de clientes, baixa produtividade, dificuldade de escalar e vendas.' },
     { t: 'Ordem de grandeza', d: 'Impacto anual: de até R$ 500 mil a acima de R$ 50 milhões.' },
     { t: 'Setor', d: 'Varejo, indústria, financeiro, telecom, educação, tecnologia…' },
     { t: 'Faturamento anual', d: 'Oito faixas, de até R$ 10MM a acima de R$ 5B.' },
@@ -153,7 +164,7 @@ export function Crm() {
       <Reveal>
         <SectionHeader
           eyebrow="Operação no CRM · SharpSpring"
-          title="O CRM do cliente como espinha dorsal da captação"
+          title="O CRM como espinha dorsal da captação"
         />
       </Reveal>
       <Stagger className="grid gap-5 sm:grid-cols-2">
@@ -185,7 +196,7 @@ export function Qualificacao() {
       <Reveal>
         <SectionHeader
           eyebrow="Qualificação & seleção"
-          title="Nem todo respondente é um lead Maestro CX — e tudo bem"
+          title="Nem todo respondente é um lead Composer — e tudo bem"
         />
       </Reveal>
       <Stagger className="grid gap-5 lg:grid-cols-3">
@@ -193,9 +204,9 @@ export function Qualificacao() {
           <StaggerItem key={t.k}>
             <div
               className={cn(
-                'relative h-full overflow-hidden rounded-2xl p-7',
+                'relative h-full overflow-hidden rounded-2xl p-7 transition-transform duration-300 hover:-translate-y-1',
                 t.hot
-                  ? 'bg-brand-gradient text-white shadow-glow'
+                  ? 'bg-brand-gradient bg-[length:200%_200%] text-white shadow-glow animate-gradient-pan'
                   : 'border border-ink-900/5 bg-white shadow-card',
               )}
             >
@@ -221,10 +232,10 @@ export function Qualificacao() {
         <div className="mt-6 flex items-start gap-4 rounded-2xl border border-brand-purple/20 bg-white p-6 shadow-card">
           <IconBadge icon={Cpu} />
           <p className="text-sm leading-relaxed text-ink-700">
-            <strong className="text-ink-900">Critério de entrada no Maestro CX:</strong>{' '}
+            <strong className="text-ink-900">Critério de entrada no Composer:</strong>{' '}
             leads A em setores prioritários (varejo, financeiro, telecom, indústria)
             viram Sessão Executiva de Interpretação e, na sequência, um POV
-            “Decision Team First” do Maestro CX (6 a 8 semanas).
+            “Decision Team First” do Composer (6 a 8 semanas).
           </p>
         </div>
       </Reveal>
@@ -279,7 +290,7 @@ export function Landing() {
         </StaggerItem>
       </Stagger>
       <Reveal delay={0.1}>
-        <div className="mt-6 flex items-start gap-4 rounded-2xl bg-brand-gradient p-[1.5px] shadow-glow">
+        <div className="mt-6 flex items-start gap-4 rounded-2xl bg-brand-gradient bg-[length:200%_200%] p-[1.5px] shadow-glow animate-gradient-pan">
           <div className="flex w-full items-start gap-4 rounded-2xl bg-white p-6">
             <IconBadge icon={CheckCircle2} />
             <p className="text-sm leading-relaxed text-ink-700">
@@ -318,7 +329,7 @@ export function Relatorio() {
           <div className="flex items-baseline gap-2">
             <CountUp to={20} className="text-4xl font-extrabold gradient-text" />
             <span className="text-2xl font-bold text-ink-300">–</span>
-            <CountUp to={30} suffix="" className="text-4xl font-extrabold gradient-text" />
+            <CountUp to={30} className="text-4xl font-extrabold gradient-text" />
             <span className="ml-2 text-sm font-medium text-ink-500">páginas, consolidadas após a captação</span>
           </div>
           <div className="flex items-center gap-2 rounded-full bg-brand-soft px-4 py-1.5 text-xs font-semibold text-brand-purple">

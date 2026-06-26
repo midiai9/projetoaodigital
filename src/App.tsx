@@ -1,13 +1,7 @@
+import { ScrollProgress } from './components/ScrollProgress'
 import { SideNav } from './components/SideNav'
 import { Hero } from './sections/Hero'
-import {
-  Desafio,
-  Documento,
-  Leitura,
-  Naming,
-  Publico,
-  Visao,
-} from './sections/Part01'
+import { Desafio, Documento, Publico, Visao } from './sections/Part01'
 import {
   Crm,
   Landing,
@@ -19,11 +13,10 @@ import {
 } from './sections/Part02'
 import {
   Campanha,
-  Cronograma,
-  Governanca,
   Composer,
   ComposerDivider,
-  Proximos,
+  Cronograma,
+  Cta,
   Webinar,
 } from './sections/Part03'
 import { Footer } from './sections/Footer'
@@ -31,6 +24,7 @@ import { Footer } from './sections/Footer'
 function App() {
   return (
     <div className="min-h-screen bg-paper">
+      <ScrollProgress />
       <SideNav />
       <main className="pt-16 lg:pl-64 lg:pt-0">
         <Hero />
@@ -38,8 +32,6 @@ function App() {
         {/* Parte 01 · Estratégia */}
         <Documento />
         <Visao />
-        <Leitura />
-        <Naming />
         <Desafio />
         <Publico />
 
@@ -58,8 +50,7 @@ function App() {
         <Campanha />
         <Webinar />
         <Cronograma />
-        <Governanca />
-        <Proximos />
+        <Cta />
 
         <Footer />
       </main>

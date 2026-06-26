@@ -153,7 +153,7 @@ export function IconBadge({
   return (
     <span
       className={cn(
-        'inline-flex shrink-0 items-center justify-center rounded-xl',
+        'icon-badge inline-flex shrink-0 items-center justify-center rounded-xl transition-transform duration-300',
         dims,
         toneCls,
       )}
@@ -175,15 +175,23 @@ export function CountUp({
   suffix?: string
   className?: string
 }) {
+  // Fallback: se o usuário pede menos movimento, mostra o número final direto.
+  const reduce =
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
   const ref = useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.6 })
   const mv = useMotionValue(0)
   const spring = useSpring(mv, { duration: 1400, bounce: 0 })
-  const [display, setDisplay] = useState(0)
+  const [display, setDisplay] = useState(reduce ? to : 0)
 
   useEffect(() => {
+    if (reduce) {
+      setDisplay(to)
+      return
+    }
     if (inView) mv.set(to)
-  }, [inView, to, mv])
+  }, [inView, to, mv, reduce])
 
   useEffect(() => spring.on('change', (v) => setDisplay(Math.round(v))), [spring])
 

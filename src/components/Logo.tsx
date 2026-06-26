@@ -11,7 +11,7 @@ export function Logo({
   return (
     <img
       src={src}
-      alt="AlwaysOn"
+      alt="Always On"
       width={650}
       height={226}
       className={cn('h-auto w-auto select-none', className)}

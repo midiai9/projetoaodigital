@@ -105,7 +105,7 @@ export function SideNav() {
           <NavList active={active} onPick={go} />
         </div>
         <div className="border-t border-ink-900/5 px-6 py-4 text-[11px] leading-snug text-ink-300">
-          Índice Nacional de
+          Índice Always On de
           <br />
           Vazamento de Valor · 2026
         </div>
