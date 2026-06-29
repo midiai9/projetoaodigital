@@ -44,6 +44,8 @@
   .ai .dot{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center}
   .ai .dot::after{content:"";width:9px;height:9px;border-radius:50%;background:#fff}
   .ai p{font-size:15px;line-height:1.45;color:var(--ink)}
+  .confirm-val{margin-top:10px;font-size:14.5px;color:var(--muted)}
+  .confirm-val strong{color:var(--ink)}
   .row{display:flex;gap:12px;align-items:center;margin-top:18px;flex-wrap:wrap}
   button{font-family:inherit;cursor:pointer;border:none;border-radius:999px;font-weight:600;font-size:16px;
     transition:transform .12s ease,box-shadow .2s,opacity .2s}
@@ -177,9 +179,13 @@ function screenQuestion(qi){
         </button>
       </div></div>
       <div class="err" id="qErr"></div>
-      <div class="row">
+      <div class="row" id="mainRow">
         <button class="btn-primary" id="send">Responder</button>
         <span class="hint" id="micHint">toque no microfone para falar</span>
+      </div>
+      <div class="row" id="confirmRow" style="display:none">
+        <button class="btn-primary" id="confirm">Confirmar e seguir →</button>
+        <button class="btn-ghost" id="recheck">Não, corrigir</button>
       </div>
     </div>`;
 
@@ -187,6 +193,8 @@ function screenQuestion(qi){
   const sendBtn = document.getElementById("send");
   const qErr = document.getElementById("qErr");
   const aiSlot = document.getElementById("aiSlot");
+  const mainRow = document.getElementById("mainRow");
+  const confirmRow = document.getElementById("confirmRow");
   let firstRaw = null;
 
   function bubble(t){ return `<div class="ai"><span class="dot"></span><p>${escapeHtml(t)}</p></div>`; }
@@ -203,18 +211,25 @@ function screenQuestion(qi){
       res = await api({ action:"respond", questionId:q.id, userText:text, history });
     }catch(e){ setBusy(sendBtn,false,"Responder"); qErr.textContent="Falha de conexão. Tente novamente."; return; }
     const captured = res.captured===true || res.fallback===true;
-    if(res.reply){ aiSlot.innerHTML = bubble(res.reply); }
+    setBusy(sendBtn,false,"Responder");
     if(captured){
-      state.answers["q"+q.id] = { raw:firstRaw, value:res.value||"" };
-      setBusy(sendBtn, true, "Seguindo");
-      setTimeout(()=>advance(qi), res.reply ? 1400 : 250);
+      const value = res.value||"";
+      state.answers["q"+q.id] = { raw:firstRaw, value };
+      aiSlot.innerHTML = bubble(res.reply||"Entendi sua resposta.") +
+        `<div class="confirm-val">Vou registrar como: <strong>${escapeHtml(value||"—")}</strong>. Está correto?</div>`;
+      mainRow.style.display="none"; confirmRow.style.display="flex";
     } else {
       history.push({role:"assistant", content:res.reply||"Pode detalhar um pouco mais?"});
-      setBusy(sendBtn,false,"Responder");
+      aiSlot.innerHTML = bubble(res.reply||"Pode detalhar um pouco mais?");
       ans.value=""; ans.focus();
     }
   }
   sendBtn.onclick = send;
+  document.getElementById("confirm").onclick = ()=> advance(qi);
+  document.getElementById("recheck").onclick = ()=>{
+    history.length=0; firstRaw=null; qErr.textContent="";
+    aiSlot.innerHTML=""; confirmRow.style.display="none"; mainRow.style.display="flex"; ans.focus();
+  };
   ans.addEventListener("keydown",e=>{ if((e.metaKey||e.ctrlKey)&&e.key==="Enter") send(); });
 
   setupMic(document.getElementById("mic"), document.getElementById("micHint"), ans, qErr);
