@@ -52,6 +52,13 @@
   button:active{transform:scale(.97)}
   .btn-primary{background:var(--grad);color:#fff;padding:14px 28px;box-shadow:0 10px 24px -10px rgba(122,70,170,.6)}
   .btn-primary:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  .btn-ghost{background:#fff;color:var(--violet);border:1.5px solid var(--hair);padding:13px 22px}
+  .btn-choice{background:#fff;color:var(--ink);border:1.5px solid var(--hair);padding:13px 30px}
+  .btn-choice:hover{border-color:var(--blue);color:var(--blue)}
+  .context{margin-top:16px;padding:12px 16px;background:#F2F5FD;border:1px solid #E2E9F9;border-radius:14px}
+  .context .row-ctx{display:flex;gap:8px;font-size:13.5px;line-height:1.7;color:var(--muted)}
+  .context .row-ctx b{color:var(--ink);font-weight:600}
+  .context .tag{flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--grad);margin-top:8px}
   .mic{position:absolute;right:10px;bottom:10px;width:44px;height:44px;border-radius:50%;background:#fff;
     border:1.5px solid var(--hair);display:flex;align-items:center;justify-content:center;color:var(--violet)}
   .mic svg{width:21px;height:21px}
@@ -85,28 +92,37 @@
 const WEBHOOK = "https://n8n.i9criacoes.com.br/webhook/indice-questionario";
 
 const QUESTIONS = [
-  { id:"1", title:"Qual é o seu maior desafio?",
-    prompt:"Nos próximos 90 dias, qual único problema em Marketing, Vendas, CRM ou Experiência do Cliente, se resolvido, traria o maior retorno financeiro para a sua empresa?",
+  { id:"1", title:"Qual é o seu maior desafio hoje?",
+    prompt:"Pensando em Marketing, Vendas, CRM e Experiência do Cliente: o que precisa ser resolvido para trazer melhores resultados para a sua empresa?",
     placeholder:"Escreva, ou toque no microfone para responder por áudio…" },
-  { id:"2", title:"Onde este desafio te afeta mais?",
-    prompt:"Conte com suas palavras — eu identifico se é Receita, Margem, Produtividade, Experiência do Cliente, Crescimento, Risco/Compliance ou Outro.",
+  { id:"2", title:"Onde isso mais te afeta?",
+    prompt:"Com suas palavras, onde seu desafio mais tem impacto? Na receita, margem, produtividade, experiência do cliente, crescimento, risco/compliance — ou outro?",
     placeholder:"Ex.: está derrubando minha margem porque…" },
-  { id:"3", title:"Qual abordagem resolveria isso?",
-    prompt:"Na sua visão, o que teria maior potencial para resolver esse desafio? (vendas, uso de dados, automação, IA, CRM, conteúdo, treinamento…)",
+  { id:"3", title:"Qual investimento resolveria seu problema?",
+    prompt:"Na sua visão, qual seria o investimento prioritário? (automações, inteligência artificial, CRM e relacionamento, marketing, treinamento de equipe… ou outro)",
     placeholder:"Ex.: acho que falta automação e melhor uso de dados…" },
-  { id:"4", title:"Qual o tamanho do impacto?",
-    prompt:"Qual a ordem de grandeza do impacto anual desse desafio? Um número aproximado já ajuda.",
-    placeholder:"Ex.: deve custar uns 3 milhões por ano…" },
-  { id:"5", title:"Qual o setor da sua organização?",
-    prompt:"Qual setor melhor representa a empresa em que você atua?",
+  { id:"4", title:"Qual o tamanho do ganho?",
+    prompt:"Resolvendo seu desafio, quanto de impacto/receita adicional você imagina nos próximos 12 meses? Um número aproximado já ajuda.",
+    placeholder:"Ex.: acho que daria uns 3 milhões a mais por ano…" },
+  { id:"5", title:"Qual o setor da sua empresa?",
+    prompt:"Qual setor melhor representa a sua organização?",
     placeholder:"Ex.: somos do varejo de moda…" },
-  { id:"6", title:"Qual a faixa de faturamento?",
+  { id:"6", title:"Qual o faturamento anual?",
     prompt:"Qual a faixa de faturamento anual da empresa?",
     placeholder:"Ex.: faturamos cerca de 120 milhões…" },
-  { id:"7", title:"Qual o seu papel na organização?",
-    prompt:"Para fechar: qual o seu papel na empresa?",
+  { id:"7", title:"Qual o seu papel na empresa?",
+    prompt:"Para fechar: qual é o seu papel na organização?",
     placeholder:"Ex.: sou diretor comercial…" }
 ];
+
+const CONTEXT_LABELS = {
+  q1:"Seu maior desafio",
+  q2:"Mais te afeta em",
+  q3:"O que ajudaria",
+  q4:"Ganho potencial",
+  q5:"Setor",
+  q6:"Faturamento"
+};
 
 const state = { contact:{}, answers:{}, utm:{} };
 (function(){ const p=new URLSearchParams(location.search);
@@ -161,6 +177,18 @@ function screenContact(){
   };
 }
 
+function contextBlock(qi){
+  if(qi===0) return "";
+  const rows=[];
+  for(let i=0;i<qi;i++){
+    const key="q"+QUESTIONS[i].id;
+    const val=v(state.answers[key]);
+    if(val) rows.push(`<div class="row-ctx"><span class="tag"></span><span>${escapeHtml(CONTEXT_LABELS[key]||"")}: <b>${escapeHtml(val)}</b></span></div>`);
+  }
+  if(!rows.length) return "";
+  return `<div class="context">${rows.join("")}</div>`;
+}
+
 function screenQuestion(qi){
   const q = QUESTIONS[qi];
   const history = [];
@@ -171,6 +199,7 @@ function screenQuestion(qi){
       <div class="num">${String(qi+1).padStart(2,"0")} / 07</div>
       <h2>${q.title}</h2>
       <p class="sub">${q.prompt}</p>
+      ${contextBlock(qi)}
       <div id="aiSlot"></div>
       <div class="field"><div class="ta-wrap">
         <textarea id="ans" placeholder="${q.placeholder}"></textarea>
@@ -237,39 +266,64 @@ function screenQuestion(qi){
 
 function advance(qi){
   if(qi+1 < QUESTIONS.length){ stepIndex++; screenQuestion(qi+1); }
-  else { submitAll(); }
+  else { screenDone(); }
 }
 
-async function submitAll(){
-  stepLabel.textContent=""; setProgress(TOTAL);
-  stage.innerHTML = `<div class="screen" style="text-align:center"><div class="kicker">Quase lá</div><h2>Consolidando o seu raio-X…</h2><p class="sub" style="margin-left:auto;margin-right:auto"><span class="spinner" style="border-color:rgba(94,90,190,.3);border-top-color:#5C5ABE"></span> Organizando suas respostas.</p></div>`;
-  try{
-    await api({ action:"submit", ...state.contact, answers:state.answers, utm:state.utm });
-  }catch(e){ }
-  screenDone();
-}
-
-function screenDone(){
+function recapList(){
   const a=state.answers;
-  const recap = [
-    ["Área do desafio", v(a.q1)],
+  return [
+    ["Maior desafio", v(a.q1)],
     ["Mais afeta", v(a.q2)],
-    ["Abordagem", v(a.q3)],
-    ["Impacto anual", v(a.q4)],
+    ["O que ajudaria", v(a.q3)],
+    ["Ganho potencial", v(a.q4)],
     ["Setor", v(a.q5)],
     ["Faturamento", v(a.q6)],
     ["Cargo", v(a.q7)]
   ].filter(r=>r[1]);
+}
+
+function screenDone(){
+  stepLabel.textContent=""; setProgress(TOTAL);
+  const recap = recapList();
   stage.innerHTML = `
     <div class="screen" style="text-align:center">
       <div class="done-badge" style="margin-left:auto;margin-right:auto">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <h2>Pronto, ${escapeHtml((state.contact.nome||"").split(" ")[0])}. Recebemos suas respostas.</h2>
-      <p class="sub" style="margin-left:auto;margin-right:auto">Você vai receber o <b>Relatório Executivo</b> e o <b>benchmark do seu setor</b>. Se for selecionado, convidamos para a <b>Sessão Executiva de Interpretação</b>.</p>
+      <p class="sub" style="margin-left:auto;margin-right:auto">Você vai receber o <b>Relatório Executivo</b> e o <b>benchmark do seu setor</b>.</p>
       <ul class="recap" style="max-width:520px;margin-left:auto;margin-right:auto;text-align:left">
         ${recap.map(r=>`<li><span>${r[0]}</span><span>${escapeHtml(r[1])}</span></li>`).join("")}
       </ul>
+      <p class="sub" style="margin:26px auto 0;max-width:560px"><b>Você deseja receber uma Sessão Executiva de Interpretação com as suas respostas?</b></p>
+      <div class="err" id="sErr" style="text-align:center"></div>
+      <div class="row" style="justify-content:center" id="sessaoRow">
+        <button class="btn-primary" id="sim">Sim, quero</button>
+        <button class="btn-choice" id="nao">Agora não</button>
+      </div>
+    </div>`;
+  document.getElementById("sim").onclick = ()=> submitAll("Sim");
+  document.getElementById("nao").onclick = ()=> submitAll("Não");
+}
+
+async function submitAll(sessao){
+  state.sessao = sessao;
+  stepLabel.textContent="";
+  stage.innerHTML = `<div class="screen" style="text-align:center"><div class="kicker">Quase lá</div><h2>Registrando suas respostas…</h2><p class="sub" style="margin-left:auto;margin-right:auto"><span class="spinner" style="border-color:rgba(94,90,190,.3);border-top-color:#5C5ABE"></span> Organizando o seu raio-X.</p></div>`;
+  try{
+    await api({ action:"submit", ...state.contact, answers:state.answers, sessao:state.sessao, utm:state.utm });
+  }catch(e){ }
+  screenThanks();
+}
+
+function screenThanks(){
+  stage.innerHTML = `
+    <div class="screen" style="text-align:center">
+      <div class="done-badge" style="margin-left:auto;margin-right:auto">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Muito obrigado, ${escapeHtml((state.contact.nome||"").split(" ")[0])}!</h2>
+      <p class="sub" style="margin-left:auto;margin-right:auto">Recebemos tudo. Em breve você recebe o <b>Relatório Executivo</b> e o <b>benchmark do seu setor</b> no seu e-mail.</p>
     </div>`;
 }
 
