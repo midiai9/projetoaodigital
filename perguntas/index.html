@@ -13,21 +13,17 @@
     --blue:#3E6BD6; --indigo:#5C5ABE; --violet:#7B46AA; --magenta:#9A3E9C;
     --grad:linear-gradient(135deg,#3E6BD6 0%,#5C5ABE 38%,#7B46AA 70%,#9A3E9C 100%);
     --ink:#15172A; --muted:#5B6173; --paper:#F7F9FC; --card:#FFFFFF; --hair:#E6E9F3;
-    --ok:#1F9D74;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{font-family:'Poppins',system-ui,sans-serif;color:var(--ink);background:var(--paper);
     -webkit-font-smoothing:antialiased;overflow:hidden}
   #app{height:100dvh;display:flex;flex-direction:column}
-  /* progress */
   .progress{height:4px;background:var(--hair);flex:0 0 auto}
   .progress > i{display:block;height:100%;width:0;background:var(--grad);transition:width .5s cubic-bezier(.16,1,.3,1)}
-  /* header */
   header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;flex:0 0 auto}
   header img{height:30px}
   header .step{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.04em}
-  /* stage */
   main{flex:1 1 auto;display:flex;align-items:center;justify-content:center;padding:16px 24px 28px;overflow-y:auto}
   .screen{width:100%;max-width:720px;animation:in .5s cubic-bezier(.16,1,.3,1)}
   @keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -37,37 +33,33 @@
   h2{font-size:clamp(22px,3.6vw,32px);font-weight:600;line-height:1.12;letter-spacing:-.015em}
   .sub{color:var(--muted);font-size:16px;line-height:1.5;margin-top:14px;max-width:60ch}
   .num{font-weight:700;font-size:14px;color:var(--blue);letter-spacing:.06em;margin-bottom:6px}
-  /* inputs */
   .field{margin-top:18px}
   .field label{display:block;font-size:13px;font-weight:500;color:var(--muted);margin-bottom:6px}
   input,textarea{width:100%;font-family:inherit;font-size:17px;color:var(--ink);background:var(--card);
     border:1.5px solid var(--hair);border-radius:14px;padding:14px 16px;outline:none;transition:border-color .2s,box-shadow .2s}
-  textarea{min-height:120px;resize:vertical;line-height:1.5}
+  textarea{min-height:128px;resize:vertical;line-height:1.5;padding-right:64px}
   input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(62,107,214,.12)}
-  /* ai bubble */
+  .ta-wrap{position:relative}
   .ai{display:flex;gap:12px;margin-top:18px;padding:14px 16px;background:#F2F5FD;border:1px solid #E2E9F9;border-radius:16px;align-items:flex-start}
   .ai .dot{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center}
   .ai .dot::after{content:"";width:9px;height:9px;border-radius:50%;background:#fff}
   .ai p{font-size:15px;line-height:1.45;color:var(--ink)}
-  /* controls row */
   .row{display:flex;gap:12px;align-items:center;margin-top:18px;flex-wrap:wrap}
   button{font-family:inherit;cursor:pointer;border:none;border-radius:999px;font-weight:600;font-size:16px;
     transition:transform .12s ease,box-shadow .2s,opacity .2s}
   button:active{transform:scale(.97)}
   .btn-primary{background:var(--grad);color:#fff;padding:14px 28px;box-shadow:0 10px 24px -10px rgba(122,70,170,.6)}
   .btn-primary:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
-  .btn-ghost{background:transparent;color:var(--muted);padding:12px 8px;font-weight:500}
-  .mic{width:54px;height:54px;border-radius:50%;background:#fff;border:1.5px solid var(--hair);
-    display:flex;align-items:center;justify-content:center;color:var(--violet);flex:0 0 auto}
-  .mic svg{width:24px;height:24px}
+  .mic{position:absolute;right:10px;bottom:10px;width:44px;height:44px;border-radius:50%;background:#fff;
+    border:1.5px solid var(--hair);display:flex;align-items:center;justify-content:center;color:var(--violet)}
+  .mic svg{width:21px;height:21px}
   .mic.rec{background:var(--magenta);border-color:var(--magenta);color:#fff;animation:pulse 1.2s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(154,62,156,.45)}70%{box-shadow:0 0 0 14px rgba(154,62,156,0)}100%{box-shadow:0 0 0 0 rgba(154,62,156,0)}}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(154,62,156,.45)}70%{box-shadow:0 0 0 12px rgba(154,62,156,0)}100%{box-shadow:0 0 0 0 rgba(154,62,156,0)}}
   .hint{font-size:13px;color:var(--muted)}
   .err{color:#C0392B;font-size:13px;margin-top:8px;min-height:18px}
   .spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;
     display:inline-block;animation:spin .7s linear infinite;vertical-align:-3px;margin-right:8px}
   @keyframes spin{to{transform:rotate(360deg)}}
-  /* done */
   .done-badge{width:72px;height:72px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;margin-bottom:22px}
   .done-badge svg{width:34px;height:34px;color:#fff}
   ul.recap{list-style:none;margin-top:22px;border-top:1px solid var(--hair)}
@@ -88,16 +80,12 @@
 </div>
 
 <script>
-/* ============ CONFIG ============ */
-// URL de produção do webhook do n8n (ative o workflow no n8n para valer).
-// Teste: troque /webhook/ por /webhook-test/ enquanto edita no n8n.
 const WEBHOOK = "https://n8n.i9criacoes.com.br/webhook/indice-questionario";
 
-/* ============ PERGUNTAS ============ */
 const QUESTIONS = [
   { id:"1", title:"Qual é o seu maior desafio?",
     prompt:"Nos próximos 90 dias, qual único problema em Marketing, Vendas, CRM ou Experiência do Cliente, se resolvido, traria o maior retorno financeiro para a sua empresa?",
-    placeholder:"Escreva ou grave um áudio com o seu maior desafio…" },
+    placeholder:"Escreva, ou toque no microfone para responder por áudio…" },
   { id:"2", title:"Onde este desafio te afeta mais?",
     prompt:"Conte com suas palavras — eu identifico se é Receita, Margem, Produtividade, Experiência do Cliente, Crescimento, Risco/Compliance ou Outro.",
     placeholder:"Ex.: está derrubando minha margem porque…" },
@@ -118,7 +106,6 @@ const QUESTIONS = [
     placeholder:"Ex.: sou diretor comercial…" }
 ];
 
-/* ============ ESTADO ============ */
 const state = { contact:{}, answers:{}, utm:{} };
 (function(){ const p=new URLSearchParams(location.search);
   ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(k=>{ if(p.get(k)) state.utm[k]=p.get(k); }); })();
@@ -126,11 +113,10 @@ const state = { contact:{}, answers:{}, utm:{} };
 const stage = document.getElementById("stage");
 const bar = document.getElementById("bar");
 const stepLabel = document.getElementById("stepLabel");
-const TOTAL = QUESTIONS.length + 2; // intro + contato + 7
+const TOTAL = QUESTIONS.length + 2;
 let stepIndex = 0;
 function setProgress(n){ bar.style.width = Math.round((n/TOTAL)*100)+"%"; }
 
-/* ============ TELAS ============ */
 function screenIntro(){
   stepLabel.textContent = "";
   setProgress(0.4);
@@ -175,7 +161,7 @@ function screenContact(){
 
 function screenQuestion(qi){
   const q = QUESTIONS[qi];
-  const history = []; // por pergunta
+  const history = [];
   stepLabel.textContent = `Pergunta ${qi+1} de ${QUESTIONS.length}`;
   setProgress(2 + qi);
   stage.innerHTML = `
@@ -184,14 +170,16 @@ function screenQuestion(qi){
       <h2>${q.title}</h2>
       <p class="sub">${q.prompt}</p>
       <div id="aiSlot"></div>
-      <div class="field"><textarea id="ans" placeholder="${q.placeholder}"></textarea></div>
-      <div class="err" id="qErr"></div>
-      <div class="row">
+      <div class="field"><div class="ta-wrap">
+        <textarea id="ans" placeholder="${q.placeholder}"></textarea>
         <button class="mic" id="mic" title="Gravar áudio" aria-label="Gravar áudio">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
         </button>
+      </div></div>
+      <div class="err" id="qErr"></div>
+      <div class="row">
         <button class="btn-primary" id="send">Responder</button>
-        <span class="hint" id="micHint">ou grave um áudio</span>
+        <span class="hint" id="micHint">toque no microfone para falar</span>
       </div>
     </div>`;
 
@@ -200,6 +188,8 @@ function screenQuestion(qi){
   const qErr = document.getElementById("qErr");
   const aiSlot = document.getElementById("aiSlot");
   let firstRaw = null;
+
+  function bubble(t){ return `<div class="ai"><span class="dot"></span><p>${escapeHtml(t)}</p></div>`; }
 
   async function send(){
     const text = ans.value.trim();
@@ -212,14 +202,15 @@ function screenQuestion(qi){
     try{
       res = await api({ action:"respond", questionId:q.id, userText:text, history });
     }catch(e){ setBusy(sendBtn,false,"Responder"); qErr.textContent="Falha de conexão. Tente novamente."; return; }
-    setBusy(sendBtn,false,"Responder");
     const captured = res.captured===true || res.fallback===true;
+    if(res.reply){ aiSlot.innerHTML = bubble(res.reply); }
     if(captured){
       state.answers["q"+q.id] = { raw:firstRaw, value:res.value||"" };
-      advance(qi);
+      setBusy(sendBtn, true, "Seguindo");
+      setTimeout(()=>advance(qi), res.reply ? 1400 : 250);
     } else {
       history.push({role:"assistant", content:res.reply||"Pode detalhar um pouco mais?"});
-      aiSlot.innerHTML = `<div class="ai"><span class="dot"></span><p>${escapeHtml(res.reply||"Pode detalhar um pouco mais?")}</p></div>`;
+      setBusy(sendBtn,false,"Responder");
       ans.value=""; ans.focus();
     }
   }
@@ -239,7 +230,7 @@ async function submitAll(){
   stage.innerHTML = `<div class="screen" style="text-align:center"><div class="kicker">Quase lá</div><h2>Consolidando o seu raio-X…</h2><p class="sub" style="margin-left:auto;margin-right:auto"><span class="spinner" style="border-color:rgba(94,90,190,.3);border-top-color:#5C5ABE"></span> Organizando suas respostas.</p></div>`;
   try{
     await api({ action:"submit", ...state.contact, answers:state.answers, utm:state.utm });
-  }catch(e){ /* não trava a tela de obrigado */ }
+  }catch(e){ }
   screenDone();
 }
 
@@ -267,7 +258,6 @@ function screenDone(){
     </div>`;
 }
 
-/* ============ ÁUDIO ============ */
 function setupMic(micBtn, hint, ans, qErr){
   let rec=null, chunks=[], stream=null;
   micBtn.onclick = async ()=>{
@@ -277,7 +267,7 @@ function setupMic(micBtn, hint, ans, qErr){
     catch(e){ qErr.textContent="Não consegui acessar o microfone. Escreva a resposta, sem problema."; return; }
     chunks=[]; rec=new MediaRecorder(stream);
     rec.ondataavailable=e=>{ if(e.data.size>0) chunks.push(e.data); };
-    rec.onstart=()=>{ micBtn.classList.add("rec"); hint.textContent="Gravando… toque para parar"; };
+    rec.onstart=()=>{ micBtn.classList.add("rec"); hint.textContent="Gravando… toque de novo para parar"; };
     rec.onstop=async ()=>{
       micBtn.classList.remove("rec"); hint.textContent="Transcrevendo…";
       stream.getTracks().forEach(t=>t.stop());
@@ -287,15 +277,14 @@ function setupMic(micBtn, hint, ans, qErr){
         const r=await fetch(WEBHOOK,{method:"POST",body:fd});
         const j=await r.json();
         const t=(j.text||j.transcription||"").trim();
-        if(t){ ans.value = ans.value ? (ans.value+" "+t) : t; hint.textContent="Pronto — revise e responda"; }
+        if(t){ ans.value = ans.value ? (ans.value+" "+t) : t; ans.focus(); hint.textContent="Pronto — revise e toque em Responder"; }
         else { hint.textContent="Não entendi o áudio; tente de novo ou escreva"; }
-      }catch(e){ qErr.textContent="Falha ao transcrever. Você pode escrever a resposta."; hint.textContent="ou grave um áudio"; }
+      }catch(e){ qErr.textContent="Falha ao transcrever. Você pode escrever a resposta."; hint.textContent="toque no microfone para falar"; }
     };
     rec.start();
   };
 }
 
-/* ============ UTIL ============ */
 async function api(payload){
   const r = await fetch(WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
   if(!r.ok) throw new Error("HTTP "+r.status);
