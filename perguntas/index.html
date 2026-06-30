@@ -2,12 +2,12 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Diagnóstico · Índice Always On de Vazamento de Valor</title>
 <meta name="robots" content="noindex" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
   :root{
     --blue:#3E6BD6; --indigo:#5C5ABE; --violet:#7B46AA; --magenta:#9A3E9C;
@@ -19,85 +19,100 @@
   body{font-family:'Poppins',system-ui,sans-serif;color:var(--ink);background:var(--paper);
     -webkit-font-smoothing:antialiased;overflow:hidden}
   #app{height:100dvh;display:flex;flex-direction:column}
-  .progress{height:4px;background:var(--hair);flex:0 0 auto}
+  .progress{height:5px;background:var(--hair);flex:0 0 auto}
   .progress > i{display:block;height:100%;width:0;background:var(--grad);transition:width .5s cubic-bezier(.16,1,.3,1)}
-  header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;flex:0 0 auto}
-  header img{height:30px}
-  header .step{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.04em}
+  header{display:flex;align-items:center;justify-content:flex-end;padding:16px 24px;flex:0 0 auto;min-height:30px}
+  header .step{font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.03em}
   main{flex:1 1 auto;display:flex;align-items:center;justify-content:center;padding:16px 24px 28px;overflow-y:auto}
-  .screen{width:100%;max-width:720px;animation:in .5s cubic-bezier(.16,1,.3,1)}
+  .screen{width:100%;max-width:760px;animation:in .5s cubic-bezier(.16,1,.3,1)}
   @keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-  .kicker{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  .badge{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.02em;
+    color:var(--violet);background:#F1ECFA;border:1px solid #E4D9F5;padding:8px 14px;border-radius:999px;margin-bottom:20px}
+  .badge svg{width:16px;height:16px}
+  .kicker{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
     background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:14px}
-  h1{font-size:clamp(26px,4.4vw,40px);font-weight:700;line-height:1.08;letter-spacing:-.02em}
-  h2{font-size:clamp(22px,3.6vw,32px);font-weight:600;line-height:1.12;letter-spacing:-.015em}
-  .sub{color:var(--muted);font-size:16px;line-height:1.5;margin-top:14px;max-width:60ch}
-  .num{font-weight:700;font-size:14px;color:var(--blue);letter-spacing:.06em;margin-bottom:6px}
+  h1{font-size:clamp(34px,7.2vw,56px);font-weight:800;line-height:1.04;letter-spacing:-.025em}
+  h2{font-size:clamp(27px,5.6vw,42px);font-weight:700;line-height:1.1;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:clamp(16px,2.4vw,19px);line-height:1.5;margin-top:16px;max-width:62ch}
+  .num{font-weight:700;font-size:14px;color:var(--blue);letter-spacing:.06em;margin-bottom:8px}
   .field{margin-top:18px}
-  .field label{display:block;font-size:13px;font-weight:500;color:var(--muted);margin-bottom:6px}
-  input,textarea{width:100%;font-family:inherit;font-size:17px;color:var(--ink);background:var(--card);
-    border:1.5px solid var(--hair);border-radius:14px;padding:14px 16px;outline:none;transition:border-color .2s,box-shadow .2s}
-  textarea{min-height:128px;resize:vertical;line-height:1.5;padding-right:64px}
+  .field label{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-bottom:7px}
+  input,textarea{width:100%;font-family:inherit;font-size:18px;color:var(--ink);background:var(--card);
+    border:1.5px solid var(--hair);border-radius:14px;padding:16px;outline:none;transition:border-color .2s,box-shadow .2s}
+  textarea{min-height:128px;resize:vertical;line-height:1.5;padding-right:70px}
   input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(62,107,214,.12)}
+  .phone{display:flex;align-items:stretch;border:1.5px solid var(--hair);border-radius:14px;overflow:hidden;background:var(--card);transition:border-color .2s,box-shadow .2s}
+  .phone:focus-within{border-color:var(--blue);box-shadow:0 0 0 4px rgba(62,107,214,.12)}
+  .phone .flag{display:flex;align-items:center;gap:6px;padding:0 14px;font-size:18px;font-weight:600;color:var(--ink);background:#F2F5FD;border-right:1.5px solid var(--hair);white-space:nowrap}
+  .phone input{border:none;border-radius:0;box-shadow:none}
+  .phone input:focus{box-shadow:none}
   .ta-wrap{position:relative}
-  .ai{display:flex;gap:12px;margin-top:18px;padding:14px 16px;background:#F2F5FD;border:1px solid #E2E9F9;border-radius:16px;align-items:flex-start}
-  .ai .dot{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center}
-  .ai .dot::after{content:"";width:9px;height:9px;border-radius:50%;background:#fff}
-  .ai p{font-size:15px;line-height:1.45;color:var(--ink)}
-  .confirm-val{margin-top:10px;font-size:14.5px;color:var(--muted)}
+  .ai{display:flex;gap:12px;margin-top:18px;padding:16px;background:#F2F5FD;border:1px solid #E2E9F9;border-radius:16px;align-items:flex-start}
+  .ai .dot{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center}
+  .ai .dot::after{content:"";width:10px;height:10px;border-radius:50%;background:#fff}
+  .ai p{font-size:16px;line-height:1.45;color:var(--ink)}
+  .confirm-val{margin-top:12px;font-size:16px;color:var(--muted)}
   .confirm-val strong{color:var(--ink)}
-  .row{display:flex;gap:12px;align-items:center;margin-top:18px;flex-wrap:wrap}
-  button{font-family:inherit;cursor:pointer;border:none;border-radius:999px;font-weight:600;font-size:16px;
+  .row{display:flex;gap:12px;align-items:center;margin-top:20px;flex-wrap:wrap}
+  button{font-family:inherit;cursor:pointer;border:none;border-radius:999px;font-weight:700;font-size:17px;
     transition:transform .12s ease,box-shadow .2s,opacity .2s}
-  button:active{transform:scale(.97)}
-  .btn-primary{background:var(--grad);color:#fff;padding:14px 28px;box-shadow:0 10px 24px -10px rgba(122,70,170,.6)}
-  .btn-primary:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
-  .btn-ghost{background:#fff;color:var(--violet);border:1.5px solid var(--hair);padding:13px 22px}
-  .btn-choice{background:#fff;color:var(--ink);border:1.5px solid var(--hair);padding:13px 30px}
+  button:active{transform:scale(.98)}
+  .btn-primary{background:var(--grad);color:#fff;padding:16px 32px;box-shadow:0 10px 24px -10px rgba(122,70,170,.6)}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+  .btn-ghost{background:#fff;color:var(--violet);border:1.5px solid var(--hair);padding:15px 26px}
+  .btn-choice{background:#fff;color:var(--ink);border:1.5px solid #D7C9EC;padding:16px 34px;font-weight:700}
   .btn-choice:hover{border-color:var(--blue);color:var(--blue)}
-  .context{margin-top:16px;padding:12px 16px;background:#F2F5FD;border:1px solid #E2E9F9;border-radius:14px}
-  .context .row-ctx{display:flex;gap:8px;font-size:13.5px;line-height:1.7;color:var(--muted)}
+  .context{margin-bottom:18px;padding:14px 16px;background:#F2F5FD;border:1px solid #E2E9F9;border-radius:14px}
+  .context .ctx-h{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--violet);margin-bottom:8px}
+  .context .row-ctx{display:flex;gap:9px;font-size:14.5px;line-height:1.6;color:var(--muted)}
   .context .row-ctx b{color:var(--ink);font-weight:600}
-  .context .tag{flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--grad);margin-top:8px}
-  .mic{position:absolute;right:10px;bottom:10px;width:44px;height:44px;border-radius:50%;background:#fff;
-    border:1.5px solid var(--hair);display:flex;align-items:center;justify-content:center;color:var(--violet)}
-  .mic svg{width:21px;height:21px}
+  .context .tag{flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--grad);margin-top:9px}
+  .mic{position:absolute;right:11px;bottom:11px;width:48px;height:48px;border-radius:50%;background:#fff;
+    border:1.5px solid var(--hair);display:flex;align-items:center;justify-content:center;color:var(--violet);
+    touch-action:none;user-select:none;-webkit-user-select:none}
+  .mic svg{width:22px;height:22px;pointer-events:none}
   .mic.rec{background:var(--magenta);border-color:var(--magenta);color:#fff;animation:pulse 1.2s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(154,62,156,.45)}70%{box-shadow:0 0 0 12px rgba(154,62,156,0)}100%{box-shadow:0 0 0 0 rgba(154,62,156,0)}}
-  .hint{font-size:13px;color:var(--muted)}
-  .err{color:#C0392B;font-size:13px;margin-top:8px;min-height:18px}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(154,62,156,.45)}70%{box-shadow:0 0 0 14px rgba(154,62,156,0)}100%{box-shadow:0 0 0 0 rgba(154,62,156,0)}}
+  .hint{font-size:13.5px;color:var(--muted)}
+  .err{color:#C0392B;font-size:13.5px;margin-top:8px;min-height:18px}
   .spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;
     display:inline-block;animation:spin .7s linear infinite;vertical-align:-3px;margin-right:8px}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .done-badge{width:72px;height:72px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;margin-bottom:22px}
-  .done-badge svg{width:34px;height:34px;color:#fff}
-  ul.recap{list-style:none;margin-top:22px;border-top:1px solid var(--hair)}
-  ul.recap li{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--hair);font-size:14px}
+  .done-badge{width:76px;height:76px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+  .done-badge svg{width:36px;height:36px;color:#fff}
+  .recap-h{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-top:24px}
+  ul.recap{list-style:none;margin-top:10px;border-top:1px solid var(--hair)}
+  ul.recap li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--hair);font-size:15px}
   ul.recap li span:first-child{color:var(--muted)}
-  ul.recap li span:last-child{font-weight:500;text-align:right}
-  @media(max-width:520px){ main{align-items:flex-start;padding-top:8px} header img{height:26px} }
+  ul.recap li span:last-child{font-weight:600;text-align:right}
+  .ask{font-size:clamp(18px,2.8vw,21px);font-weight:700;margin:30px auto 0;max-width:580px}
+  @media(max-width:560px){
+    header{padding:12px 18px}
+    main{align-items:flex-start;padding:14px 18px 120px}
+    .cta{position:fixed;left:0;right:0;bottom:0;z-index:6;margin:0;padding:14px 18px calc(16px + env(safe-area-inset-bottom));
+      background:linear-gradient(180deg,rgba(247,249,252,0),var(--paper) 34%);flex-wrap:nowrap}
+    .cta .btn-primary{flex:1 1 auto;width:100%;justify-content:center;text-align:center;font-size:19px;padding:18px}
+    .cta .btn-ghost{flex:0 0 auto;font-size:15px;padding:16px 18px}
+    .cta .hint{display:none}
+  }
 </style>
 </head>
 <body>
 <div id="app">
   <div class="progress"><i id="bar"></i></div>
-  <header>
-    <img src="/brand/alwayson-black.png" alt="Always On" onerror="this.style.display='none'"/>
-    <span class="step" id="stepLabel"></span>
-  </header>
+  <header><span class="step" id="stepLabel"></span></header>
   <main><div id="stage"></div></main>
 </div>
-
 <script>
 const WEBHOOK = "https://n8n.i9criacoes.com.br/webhook/indice-questionario";
 
 const QUESTIONS = [
   { id:"1", title:"Qual é o seu maior desafio hoje?",
     prompt:"Pensando em Marketing, Vendas, CRM e Experiência do Cliente: o que precisa ser resolvido para trazer melhores resultados para a sua empresa?",
-    placeholder:"Escreva, ou toque no microfone para responder por áudio…" },
+    placeholder:"Escreva, ou segure o microfone para responder por áudio…" },
   { id:"2", title:"Onde isso mais te afeta?",
-    prompt:"Com suas palavras, onde seu desafio mais tem impacto? Na receita, margem, produtividade, experiência do cliente, crescimento, risco/compliance — ou outro?",
-    placeholder:"Ex.: está derrubando minha margem porque…" },
+    prompt:"Com suas palavras, onde seu desafio mais tem impacto? (receita, margem, produtividade, experiência do cliente, crescimento, risco, compliance ou outro)",
+    placeholder:"Ex.: o meu desafio impacta mais a minha margem de lucro e a produtividade…" },
   { id:"3", title:"Qual investimento resolveria seu problema?",
     prompt:"Na sua visão, qual seria o investimento prioritário? (automações, inteligência artificial, CRM e relacionamento, marketing, treinamento de equipe… ou outro)",
     placeholder:"Ex.: acho que falta automação e melhor uso de dados…" },
@@ -135,17 +150,18 @@ const TOTAL = QUESTIONS.length + 2;
 let stepIndex = 0;
 function setProgress(n){ bar.style.width = Math.round((n/TOTAL)*100)+"%"; }
 
+function clockSvg(){ return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>`; }
+
 function screenIntro(){
   stepLabel.textContent = "";
   setProgress(0.4);
   stage.innerHTML = `
     <div class="screen">
-      <div class="kicker">Diagnóstico Executivo · menos de 5 min</div>
-      <h1>Onde a sua empresa está<br/>deixando escapar valor?</h1>
+      <div class="badge">${clockSvg()} Menos de 5 minutos</div>
+      <h1>Onde a sua empresa está deixando escapar valor?</h1>
       <p class="sub">São 7 perguntas. Responda <b>escrevendo ou gravando um áudio</b> — uma inteligência conduz a conversa e devolve o seu raio-X. Tudo confidencial.</p>
-      <div class="row">
+      <div class="row cta">
         <button class="btn-primary" id="go">Iniciar diagnóstico</button>
-        <span class="hint">Leva ~5 minutos</span>
       </div>
     </div>`;
   document.getElementById("go").onclick = ()=>{ stepIndex=1; screenContact(); };
@@ -157,24 +173,37 @@ function screenContact(){
   stage.innerHTML = `
     <div class="screen">
       <div class="num">ANTES DE COMEÇAR</div>
-      <h2>Para quem preparamos o diagnóstico?</h2>
+      <h2>Para quem vamos entregar este diagnóstico?</h2>
       <div class="field"><label>Nome completo</label><input id="nome" autocomplete="name" placeholder="Seu nome"/></div>
       <div class="field"><label>E-mail corporativo</label><input id="email" type="email" autocomplete="email" placeholder="voce@empresa.com"/></div>
-      <div class="field"><label>WhatsApp</label><input id="whatsapp" inputmode="tel" autocomplete="tel" placeholder="(11) 9 0000-0000"/></div>
+      <div class="field"><label>WhatsApp</label>
+        <div class="phone"><span class="flag">🇧🇷 +55</span><input id="whatsapp" inputmode="numeric" autocomplete="tel" placeholder="(11) 90000-0000"/></div>
+      </div>
       <div class="field"><label>Empresa</label><input id="empresa" autocomplete="organization" placeholder="Nome da empresa"/></div>
       <div class="err" id="cErr"></div>
-      <div class="row"><button class="btn-primary" id="next">Começar as 7 perguntas</button></div>
+      <div class="row cta"><button class="btn-primary" id="next">Começar as 7 perguntas</button></div>
     </div>`;
+  const wa=document.getElementById("whatsapp");
+  wa.addEventListener("input",()=>{ const c=wa.selectionStart===wa.value.length; wa.value=maskPhone(wa.value); if(c){ wa.selectionStart=wa.selectionEnd=wa.value.length; } });
   document.getElementById("next").onclick = ()=>{
-    const nome=val("nome"), email=val("email"), whatsapp=val("whatsapp"), empresa=val("empresa");
+    const nome=val("nome"), email=val("email"), empresa=val("empresa");
+    const waDigits=(wa.value||"").replace(/\D/g,"");
     const err=document.getElementById("cErr");
     if(!nome){return err.textContent="Por favor, informe seu nome.";}
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){return err.textContent="Informe um e-mail válido.";}
-    if(whatsapp.replace(/\D/g,"").length<10){return err.textContent="Informe um WhatsApp válido com DDD.";}
+    if(waDigits.length<10){return err.textContent="Informe o WhatsApp com DDD + número completo.";}
     if(!empresa){return err.textContent="Por favor, informe a empresa.";}
-    state.contact={nome,email,whatsapp,empresa};
+    state.contact={nome,email,whatsapp:"+55 "+wa.value,empresa};
     stepIndex=2; screenQuestion(0);
   };
+}
+
+function maskPhone(v){
+  let d=v.replace(/\D/g,"").slice(0,11);
+  if(d.length<=2) return d.length?("("+d):"";
+  if(d.length<=6) return "("+d.slice(0,2)+") "+d.slice(2);
+  if(d.length<=10) return "("+d.slice(0,2)+") "+d.slice(2,6)+"-"+d.slice(6);
+  return "("+d.slice(0,2)+") "+d.slice(2,7)+"-"+d.slice(7);
 }
 
 function contextBlock(qi){
@@ -186,33 +215,34 @@ function contextBlock(qi){
     if(val) rows.push(`<div class="row-ctx"><span class="tag"></span><span>${escapeHtml(CONTEXT_LABELS[key]||"")}: <b>${escapeHtml(val)}</b></span></div>`);
   }
   if(!rows.length) return "";
-  return `<div class="context">${rows.join("")}</div>`;
+  return `<div class="context"><div class="ctx-h">Suas respostas até aqui</div>${rows.join("")}</div>`;
 }
 
 function screenQuestion(qi){
   const q = QUESTIONS[qi];
   const history = [];
+  let firstRaw = null;
   stepLabel.textContent = `Pergunta ${qi+1} de ${QUESTIONS.length}`;
   setProgress(2 + qi);
   stage.innerHTML = `
     <div class="screen">
+      ${contextBlock(qi)}
       <div class="num">${String(qi+1).padStart(2,"0")} / 07</div>
       <h2>${q.title}</h2>
       <p class="sub">${q.prompt}</p>
-      ${contextBlock(qi)}
       <div id="aiSlot"></div>
       <div class="field"><div class="ta-wrap">
         <textarea id="ans" placeholder="${q.placeholder}"></textarea>
-        <button class="mic" id="mic" title="Gravar áudio" aria-label="Gravar áudio">
+        <button class="mic" id="mic" title="Segure para gravar" aria-label="Segure para gravar áudio">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
         </button>
       </div></div>
       <div class="err" id="qErr"></div>
-      <div class="row" id="mainRow">
+      <div class="row cta" id="mainRow">
         <button class="btn-primary" id="send">Responder</button>
-        <span class="hint" id="micHint">toque no microfone para falar</span>
+        <span class="hint" id="micHint">segure o microfone para falar</span>
       </div>
-      <div class="row" id="confirmRow" style="display:none">
+      <div class="row cta" id="confirmRow" style="display:none">
         <button class="btn-primary" id="confirm">Confirmar e seguir →</button>
         <button class="btn-ghost" id="recheck">Não, corrigir</button>
       </div>
@@ -224,13 +254,12 @@ function screenQuestion(qi){
   const aiSlot = document.getElementById("aiSlot");
   const mainRow = document.getElementById("mainRow");
   const confirmRow = document.getElementById("confirmRow");
-  let firstRaw = null;
 
   function bubble(t){ return `<div class="ai"><span class="dot"></span><p>${escapeHtml(t)}</p></div>`; }
 
   async function send(){
     const text = ans.value.trim();
-    if(!text){ qErr.textContent="Escreva ou grave sua resposta."; return; }
+    if(!text){ qErr.textContent="Escreva ou segure o microfone para gravar."; return; }
     qErr.textContent="";
     if(firstRaw===null) firstRaw = text;
     setBusy(sendBtn, true, "Pensando");
@@ -239,25 +268,27 @@ function screenQuestion(qi){
     try{
       res = await api({ action:"respond", questionId:q.id, userText:text, history });
     }catch(e){ setBusy(sendBtn,false,"Responder"); qErr.textContent="Falha de conexão. Tente novamente."; return; }
-    const captured = res.captured===true || res.fallback===true;
     setBusy(sendBtn,false,"Responder");
-    if(captured){
-      const value = res.value||"";
+    const value = (res.value||"").trim();
+    const ok = res.captured===true && value!=="";
+    ans.value = "";
+    if(ok){
       state.answers["q"+q.id] = { raw:firstRaw, value };
       aiSlot.innerHTML = bubble(res.reply||"Entendi sua resposta.") +
-        `<div class="confirm-val">Vou registrar como: <strong>${escapeHtml(value||"—")}</strong>. Está correto?</div>`;
+        `<div class="confirm-val">Vou registrar como: <strong>${escapeHtml(value)}</strong>. Está correto?</div>`;
       mainRow.style.display="none"; confirmRow.style.display="flex";
     } else {
-      history.push({role:"assistant", content:res.reply||"Pode detalhar um pouco mais?"});
-      aiSlot.innerHTML = bubble(res.reply||"Pode detalhar um pouco mais?");
-      ans.value=""; ans.focus();
+      history.push({role:"assistant", content:res.reply||"Pode esclarecer um pouco mais?"});
+      aiSlot.innerHTML = bubble(res.reply||"Pode esclarecer um pouco mais, por favor?");
+      mainRow.style.display="flex"; confirmRow.style.display="none";
+      ans.focus();
     }
   }
   sendBtn.onclick = send;
   document.getElementById("confirm").onclick = ()=> advance(qi);
   document.getElementById("recheck").onclick = ()=>{
     history.length=0; firstRaw=null; qErr.textContent="";
-    aiSlot.innerHTML=""; confirmRow.style.display="none"; mainRow.style.display="flex"; ans.focus();
+    aiSlot.innerHTML=""; confirmRow.style.display="none"; mainRow.style.display="flex"; ans.value=""; ans.focus();
   };
   ans.addEventListener("keydown",e=>{ if((e.metaKey||e.ctrlKey)&&e.key==="Enter") send(); });
 
@@ -291,11 +322,11 @@ function screenDone(){
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <h2>Pronto, ${escapeHtml((state.contact.nome||"").split(" ")[0])}. Recebemos suas respostas.</h2>
-      <p class="sub" style="margin-left:auto;margin-right:auto">Você vai receber o <b>Relatório Executivo</b> e o <b>benchmark do seu setor</b>.</p>
-      <ul class="recap" style="max-width:520px;margin-left:auto;margin-right:auto;text-align:left">
+      <div class="recap-h" style="text-align:left;max-width:540px;margin-left:auto;margin-right:auto">Seguem as informações que coletamos</div>
+      <ul class="recap" style="max-width:540px;margin-left:auto;margin-right:auto;text-align:left">
         ${recap.map(r=>`<li><span>${r[0]}</span><span>${escapeHtml(r[1])}</span></li>`).join("")}
       </ul>
-      <p class="sub" style="margin:26px auto 0;max-width:560px"><b>Você deseja receber uma Sessão Executiva de Interpretação com as suas respostas?</b></p>
+      <p class="ask">Você deseja receber uma Sessão Executiva de Interpretação com as suas respostas?</p>
       <div class="err" id="sErr" style="text-align:center"></div>
       <div class="row" style="justify-content:center" id="sessaoRow">
         <button class="btn-primary" id="sim">Sim, quero</button>
@@ -328,30 +359,38 @@ function screenThanks(){
 }
 
 function setupMic(micBtn, hint, ans, qErr){
-  let rec=null, chunks=[], stream=null;
-  micBtn.onclick = async ()=>{
-    if(rec && rec.state==="recording"){ rec.stop(); return; }
+  let rec=null, chunks=[], stream=null, holding=false;
+  async function start(){
+    if(rec && rec.state==="recording") return;
     if(!navigator.mediaDevices || !window.MediaRecorder){ qErr.textContent="Seu navegador não suporta gravação; pode escrever a resposta."; return; }
     try{ stream = await navigator.mediaDevices.getUserMedia({audio:true}); }
     catch(e){ qErr.textContent="Não consegui acessar o microfone. Escreva a resposta, sem problema."; return; }
+    if(!holding){ stream.getTracks().forEach(t=>t.stop()); return; }
     chunks=[]; rec=new MediaRecorder(stream);
     rec.ondataavailable=e=>{ if(e.data.size>0) chunks.push(e.data); };
-    rec.onstart=()=>{ micBtn.classList.add("rec"); hint.textContent="Gravando… toque de novo para parar"; };
+    rec.onstart=()=>{ micBtn.classList.add("rec"); hint.textContent="Gravando… solte para enviar"; };
     rec.onstop=async ()=>{
       micBtn.classList.remove("rec"); hint.textContent="Transcrevendo…";
       stream.getTracks().forEach(t=>t.stop());
       const blob=new Blob(chunks,{type:"audio/webm"});
+      if(blob.size<700){ hint.textContent="segure o microfone para falar"; return; }
       const fd=new FormData(); fd.append("action","transcribe"); fd.append("data",blob,"audio.webm");
       try{
         const r=await fetch(WEBHOOK,{method:"POST",body:fd});
         const j=await r.json();
         const t=(j.text||j.transcription||"").trim();
-        if(t){ ans.value = ans.value ? (ans.value+" "+t) : t; ans.focus(); hint.textContent="Pronto — revise e toque em Responder"; }
+        if(t){ ans.value = ans.value ? (ans.value+" "+t) : t; ans.focus(); hint.textContent="Pronto — toque em Responder"; }
         else { hint.textContent="Não entendi o áudio; tente de novo ou escreva"; }
-      }catch(e){ qErr.textContent="Falha ao transcrever. Você pode escrever a resposta."; hint.textContent="toque no microfone para falar"; }
+      }catch(e){ qErr.textContent="Falha ao transcrever. Você pode escrever a resposta."; hint.textContent="segure o microfone para falar"; }
     };
     rec.start();
-  };
+  }
+  function stop(){ if(rec && rec.state==="recording") rec.stop(); }
+  micBtn.addEventListener("pointerdown", e=>{ e.preventDefault(); holding=true; start(); });
+  micBtn.addEventListener("pointerup", e=>{ e.preventDefault(); if(holding){ holding=false; stop(); } });
+  micBtn.addEventListener("pointerleave", ()=>{ if(holding){ holding=false; stop(); } });
+  micBtn.addEventListener("pointercancel", ()=>{ if(holding){ holding=false; stop(); } });
+  micBtn.addEventListener("contextmenu", e=> e.preventDefault());
 }
 
 async function api(payload){
