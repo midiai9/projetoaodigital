@@ -107,6 +107,9 @@
     .cta .btn-primary{flex:1 1 auto;width:100%;justify-content:center;text-align:center;font-size:19px;padding:18px}
     .cta .btn-ghost{flex:0 0 auto;font-size:15px;padding:16px 18px}
     .cta .hint{display:none}
+    #confirmRow.cta{position:static;margin-top:16px;padding:0;background:none;flex-wrap:wrap}
+    #confirmRow .btn-primary{flex:0 1 auto;width:auto;font-size:16px;padding:14px 24px}
+    #confirmRow .btn-ghost{flex:0 1 auto;font-size:15px;padding:13px 20px}
   }
 </style>
 </head>
@@ -284,8 +287,8 @@ function screenQuestion(qi){
     }catch(e){ setBusy(sendBtn,false,"Responder"); qErr.textContent="Falha de conexão. Tente novamente."; return; }
     setBusy(sendBtn,false,"Responder");
     const value = (res.value||"").trim();
-    const ok = res.captured===true && value!=="";   // trava: só avança com categoria válida
-    ans.value = "";                                  // o campo limpa sozinho a cada resposta
+    const ok = res.captured===true && value!=="";
+    ans.value = "";
     if(ok){
       state.answers["q"+q.id] = { raw:firstRaw, value };
       aiSlot.innerHTML = bubble(res.reply||"Entendi sua resposta.") +
@@ -381,7 +384,7 @@ function setupMic(micBtn, hint, ans, qErr){
     if(!navigator.mediaDevices || !window.MediaRecorder){ qErr.textContent="Seu navegador não suporta gravação; pode escrever a resposta."; return; }
     try{ stream = await navigator.mediaDevices.getUserMedia({audio:true}); }
     catch(e){ qErr.textContent="Não consegui acessar o microfone. Escreva a resposta, sem problema."; return; }
-    if(!holding){ stream.getTracks().forEach(t=>t.stop()); return; } // soltou antes de liberar
+    if(!holding){ stream.getTracks().forEach(t=>t.stop()); return; }
     chunks=[]; rec=new MediaRecorder(stream);
     rec.ondataavailable=e=>{ if(e.data.size>0) chunks.push(e.data); };
     rec.onstart=()=>{ micBtn.classList.add("rec"); hint.textContent="Gravando… solte para enviar"; };
