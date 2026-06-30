@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Diagnóstico · Índice Always On de Vazamento de Valor</title>
 <meta name="robots" content="noindex" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://projeto.aodigital.net.br/perguntas/" />
+<meta property="og:title" content="Índice Always On de Vazamento de Valor" />
+<meta property="og:description" content="Receba o relatório completo da sua empresa e do seu setor em menos de 5 minutos." />
+<meta property="og:image" content="https://projeto.aodigital.net.br/perguntas/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="pt_BR" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Índice Always On de Vazamento de Valor" />
+<meta name="twitter:description" content="Receba o relatório completo da sua empresa e do seu setor em menos de 5 minutos." />
+<meta name="twitter:image" content="https://projeto.aodigital.net.br/perguntas/og.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -51,8 +63,8 @@
   .ai .dot{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center}
   .ai .dot::after{content:"";width:10px;height:10px;border-radius:50%;background:#fff}
   .ai p{font-size:16px;line-height:1.45;color:var(--ink)}
-  .confirm-val{margin-top:12px;font-size:16px;color:var(--muted)}
-  .confirm-val strong{color:var(--ink)}
+  .confirm-val{margin-top:14px;padding:14px 16px;background:#FFF;border:1.5px solid #D7C9EC;border-radius:14px;font-size:17px;line-height:1.5;color:var(--ink);font-weight:500}
+  .confirm-val strong{color:var(--violet);font-weight:700}
   .row{display:flex;gap:12px;align-items:center;margin-top:20px;flex-wrap:wrap}
   button{font-family:inherit;cursor:pointer;border:none;border-radius:999px;font-weight:700;font-size:17px;
     transition:transform .12s ease,box-shadow .2s,opacity .2s}
@@ -88,7 +100,8 @@
   .ask{font-size:clamp(18px,2.8vw,21px);font-weight:700;margin:30px auto 0;max-width:580px}
   @media(max-width:560px){
     header{padding:12px 18px}
-    main{align-items:flex-start;padding:14px 18px 120px}
+    main{align-items:flex-start;padding:14px 18px calc(150px + env(safe-area-inset-bottom))}
+    .mic{top:11px;bottom:auto}
     .cta{position:fixed;left:0;right:0;bottom:0;z-index:6;margin:0;padding:14px 18px calc(16px + env(safe-area-inset-bottom));
       background:linear-gradient(180deg,rgba(247,249,252,0),var(--paper) 34%);flex-wrap:nowrap}
     .cta .btn-primary{flex:1 1 auto;width:100%;justify-content:center;text-align:center;font-size:19px;padding:18px}
@@ -103,6 +116,7 @@
   <header><span class="step" id="stepLabel"></span></header>
   <main><div id="stage"></div></main>
 </div>
+
 <script>
 const WEBHOOK = "https://n8n.i9criacoes.com.br/webhook/indice-questionario";
 
@@ -231,7 +245,7 @@ function screenQuestion(qi){
       <h2>${q.title}</h2>
       <p class="sub">${q.prompt}</p>
       <div id="aiSlot"></div>
-      <div class="field"><div class="ta-wrap">
+      <div class="field" id="ansField"><div class="ta-wrap">
         <textarea id="ans" placeholder="${q.placeholder}"></textarea>
         <button class="mic" id="mic" title="Segure para gravar" aria-label="Segure para gravar áudio">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
@@ -270,12 +284,13 @@ function screenQuestion(qi){
     }catch(e){ setBusy(sendBtn,false,"Responder"); qErr.textContent="Falha de conexão. Tente novamente."; return; }
     setBusy(sendBtn,false,"Responder");
     const value = (res.value||"").trim();
-    const ok = res.captured===true && value!=="";
-    ans.value = "";
+    const ok = res.captured===true && value!=="";   // trava: só avança com categoria válida
+    ans.value = "";                                  // o campo limpa sozinho a cada resposta
     if(ok){
       state.answers["q"+q.id] = { raw:firstRaw, value };
       aiSlot.innerHTML = bubble(res.reply||"Entendi sua resposta.") +
-        `<div class="confirm-val">Vou registrar como: <strong>${escapeHtml(value)}</strong>. Está correto?</div>`;
+        `<div class="confirm-val">Vou registrar sua resposta como: <strong>${escapeHtml(value)}</strong>. Está correto?</div>`;
+      document.getElementById("ansField").style.display="none";
       mainRow.style.display="none"; confirmRow.style.display="flex";
     } else {
       history.push({role:"assistant", content:res.reply||"Pode esclarecer um pouco mais?"});
@@ -288,7 +303,8 @@ function screenQuestion(qi){
   document.getElementById("confirm").onclick = ()=> advance(qi);
   document.getElementById("recheck").onclick = ()=>{
     history.length=0; firstRaw=null; qErr.textContent="";
-    aiSlot.innerHTML=""; confirmRow.style.display="none"; mainRow.style.display="flex"; ans.value=""; ans.focus();
+    aiSlot.innerHTML=""; confirmRow.style.display="none"; mainRow.style.display="flex";
+    document.getElementById("ansField").style.display=""; ans.value=""; ans.focus();
   };
   ans.addEventListener("keydown",e=>{ if((e.metaKey||e.ctrlKey)&&e.key==="Enter") send(); });
 
@@ -365,7 +381,7 @@ function setupMic(micBtn, hint, ans, qErr){
     if(!navigator.mediaDevices || !window.MediaRecorder){ qErr.textContent="Seu navegador não suporta gravação; pode escrever a resposta."; return; }
     try{ stream = await navigator.mediaDevices.getUserMedia({audio:true}); }
     catch(e){ qErr.textContent="Não consegui acessar o microfone. Escreva a resposta, sem problema."; return; }
-    if(!holding){ stream.getTracks().forEach(t=>t.stop()); return; }
+    if(!holding){ stream.getTracks().forEach(t=>t.stop()); return; } // soltou antes de liberar
     chunks=[]; rec=new MediaRecorder(stream);
     rec.ondataavailable=e=>{ if(e.data.size>0) chunks.push(e.data); };
     rec.onstart=()=>{ micBtn.classList.add("rec"); hint.textContent="Gravando… solte para enviar"; };
@@ -374,14 +390,17 @@ function setupMic(micBtn, hint, ans, qErr){
       stream.getTracks().forEach(t=>t.stop());
       const blob=new Blob(chunks,{type:"audio/webm"});
       if(blob.size<700){ hint.textContent="segure o microfone para falar"; return; }
+      const slot=document.getElementById("aiSlot");
+      if(slot) slot.innerHTML = `<div class="ai"><span class="dot"></span><p><span class="spinner" style="border-color:rgba(94,90,190,.35);border-top-color:#5C5ABE"></span>Recebendo o seu áudio e transcrevendo…</p></div>`;
       const fd=new FormData(); fd.append("action","transcribe"); fd.append("data",blob,"audio.webm");
       try{
         const r=await fetch(WEBHOOK,{method:"POST",body:fd});
         const j=await r.json();
         const t=(j.text||j.transcription||"").trim();
+        if(slot) slot.innerHTML="";
         if(t){ ans.value = ans.value ? (ans.value+" "+t) : t; ans.focus(); hint.textContent="Pronto — toque em Responder"; }
         else { hint.textContent="Não entendi o áudio; tente de novo ou escreva"; }
-      }catch(e){ qErr.textContent="Falha ao transcrever. Você pode escrever a resposta."; hint.textContent="segure o microfone para falar"; }
+      }catch(e){ if(slot) slot.innerHTML=""; qErr.textContent="Falha ao transcrever. Você pode escrever a resposta."; hint.textContent="segure o microfone para falar"; }
     };
     rec.start();
   }
