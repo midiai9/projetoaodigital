@@ -47,6 +47,9 @@
   .brand .mk{width:30px;height:30px;border-radius:9px;background:var(--grad);position:relative;flex:0 0 auto}
   .brand .mk::after{content:"";position:absolute;inset:9px;border-radius:50%;background:#fff}
   .brand small{display:block;font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.02em}
+  .brand .logo{height:30px;display:block}
+  .brand .bsep{width:1px;height:24px;background:var(--line)}
+  footer .logo-w{height:28px;display:block;margin-bottom:14px}
   header .btn{padding:11px 20px;font-size:14px}
   @media(max-width:720px){ header .brand small{display:none} header .btn{padding:10px 16px} }
   /* hero */
@@ -77,6 +80,8 @@
   .leak .n{font-size:14px;color:#E7E9FB}
   .leak .v{font-weight:700;font-size:15px;color:#fff;display:flex;align-items:center;gap:7px}
   .leak .v i{width:8px;height:8px;border-radius:2px;background:var(--grad)}
+  .leak .chk{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:rgba(126,224,165,.14);border:1px solid rgba(126,224,165,.32);display:flex;align-items:center;justify-content:center;color:#7ee0a5}
+  .leak .chk svg{width:15px;height:15px}
   /* sections */
   section{padding:82px 0}
   .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
@@ -183,7 +188,7 @@
 <body>
 <header>
   <div class="wrap bar">
-    <div class="brand"><span class="mk"></span><div>Índice Always On<small>Vazamento de Valor · 2026</small></div></div>
+    <div class="brand"><img src="/brand/alwayson-black.png" alt="Always On" class="logo"/><span class="bsep"></span><small>Índice de Vazamento de Valor</small></div>
     <a class="btn btn-primary" href="/perguntas/">Iniciar diagnóstico</a>
   </div>
 </header>
@@ -203,16 +208,15 @@
         <div><b>7</b><span>perguntas</span></div>
         <div><b>&lt;5 min</b><span>para responder</span></div>
         <div><b>6</b><span>entregas de volta</span></div>
-        <div><b>250+</b><span>empresas na meta</span></div>
       </div>
     </div>
     <div class="panel reveal">
-      <div class="ph">Onde o valor vaza</div>
-      <div class="leak"><span class="n">Marketing sem retorno mensurável</span><span class="v"><i></i> Receita</span></div>
-      <div class="leak"><span class="n">Vendas com previsibilidade baixa</span><span class="v"><i></i> Margem</span></div>
-      <div class="leak"><span class="n">CRM subutilizado</span><span class="v"><i></i> Produtividade</span></div>
-      <div class="leak"><span class="n">Experiência do cliente com atrito</span><span class="v"><i></i> Crescimento</span></div>
-      <div class="leak"><span class="n">Processos manuais e retrabalho</span><span class="v"><i></i> Custo</span></div>
+      <div class="ph">Onde o valor da sua empresa vaza?</div>
+      <div class="leak"><span class="n">Marketing sem retorno mensurável</span><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+      <div class="leak"><span class="n">Vendas com previsibilidade baixa</span><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+      <div class="leak"><span class="n">CRM subutilizado</span><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+      <div class="leak"><span class="n">Experiência do cliente com atrito</span><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+      <div class="leak"><span class="n">Processos manuais e retrabalho</span><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
     </div>
   </div>
 </div>
@@ -258,7 +262,7 @@
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2.1l4 4-4 4"/><path d="M3 12.2v-2a4 4 0 0 1 4-4h14"/><path d="M7 21.9l-4-4 4-4"/><path d="M21 11.8v2a4 4 0 0 1-4 4H3"/></svg></div>
           <div style="flex:1;min-width:240px">
             <h3>Acesso ao evento nacional de 06/10</h3>
-            <p>Todo o resultado do Índice é apresentado ao vivo, em parceria com a Bento e a ABEMD. Quem responde e é selecionado entra na sala — networking de alto nível com lideranças que decidem.</p>
+            <p>Todo o resultado do Índice é apresentado ao vivo, em parceria com a ABEMD. Quem responde e é selecionado entra na sala — networking de alto nível com lideranças que decidem.</p>
           </div>
           <a class="btn btn-primary" href="/perguntas/">Quero participar →</a>
         </div>
@@ -320,7 +324,7 @@
         <div>
           <div class="date">06/10</div>
           <h3>Os gargalos que mais consomem margem nas empresas brasileiras</h3>
-          <p>Apresentação ao vivo dos dados do Índice Always On de Vazamento de Valor, em parceria com a <b>Bento</b> e a <b>ABEMD</b> — credibilidade institucional para o lançamento do benchmark nacional.</p>
+          <p>Apresentação ao vivo dos dados do Índice Always On de Vazamento de Valor, em parceria com a <b>ABEMD</b> — credibilidade institucional para o lançamento do benchmark nacional.</p>
         </div>
         <div>
           <ul>
@@ -363,7 +367,7 @@
       <details><summary>É confidencial?<span class="pm"></span></summary><p>Sim. Suas respostas entram de forma anônima no índice e só são identificadas se você pedir a Sessão Executiva. Os dados agregados viram benchmark; a sua empresa não é exposta.</p></details>
       <details><summary>Tem algum custo ou compromisso?<span class="pm"></span></summary><p>Nenhum. O diagnóstico e o Relatório Executivo são 100% gratuitos para todos os participantes. A Sessão Executiva só acontece se você aceitar.</p></details>
       <details><summary>Preciso ser de um setor específico?<span class="pm"></span></summary><p>Não. O estudo cobre os principais setores da economia — varejo, indústria, financeiro, telecom, educação, tecnologia, mobilidade, serviços e mais.</p></details>
-      <details><summary>O que eu recebo no fim?<span class="pm"></span></summary><p>O benchmark do seu setor, o Índice de Vazamento, o custo de oportunidade, o mapa de prioridades e o convite ao evento de 06/10 com a Bento e a ABEMD.</p></details>
+      <details><summary>O que eu recebo no fim?<span class="pm"></span></summary><p>O benchmark do seu setor, o Índice de Vazamento, o custo de oportunidade, o mapa de prioridades e o convite ao evento de 06/10 com a ABEMD.</p></details>
     </div>
   </div>
 </section>
@@ -386,12 +390,13 @@
 
 <footer>
   <div class="wrap row">
-    <div><b>Índice Always On de Vazamento de Valor</b><small>Onde as empresas brasileiras perdem valor — e como recuperá-lo. · Estudo Executivo Nacional · 2026</small></div>
+    <div><img src="/brand/alwayson-white.png" alt="Always On" class="logo-w"/><b>Índice de Vazamento de Valor</b><small>Onde as empresas brasileiras perdem valor — e como recuperá-lo. · Estudo Executivo Nacional · 2026</small></div>
     <a class="btn btn-ghost" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Voltar ao topo</a>
   </div>
 </footer>
 
 <div class="sticky"><a class="btn btn-primary" href="/perguntas/">Iniciar diagnóstico — 5 min</a></div>
+
 <script>
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
   document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay=Math.min(i%4*70,210)+'ms'; io.observe(el); });
