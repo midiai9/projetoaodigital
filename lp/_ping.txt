@@ -1,0 +1,1 @@
+ping de diagnostico com texto suficientemente longo para passar da checagem de cinquenta caracteres do committer n8n.
