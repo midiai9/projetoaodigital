@@ -1,5 +1,10 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Redireciona /lp e /lp/ para a home (LP agora vive na raiz)
+  RewriteRule ^lp/?$ / [R=301,L]
+
+  # Fallback estático/SPA
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
